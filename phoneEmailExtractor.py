@@ -25,6 +25,13 @@ emailRegex = re.compile(r'''(
 
 
 # TODO: Find regex matches for email/phone in clipboard text
+text = str(pyperclip.paste())
+matches = []
+
+for groups in phoneRegex.findall(text):
+
+
+for groups in moEmail = emailRegex.findall(text):
 
 
 # TODO: Copy results to the clipboard
