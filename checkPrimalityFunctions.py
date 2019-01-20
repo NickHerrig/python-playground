@@ -14,8 +14,9 @@ findDivisors(usr_input)
 
 print(divisorsList)
 
-
-if len(divisorsList) > 1:
+if usr_input == 1:
+	print(str(usr_input) + " is not a prime number!")
+elif len(divisorsList) > 1:
 	print(str(usr_input) + " is not a prime number!")
 else:
 	print(str(usr_input) + " is a prime number!")
