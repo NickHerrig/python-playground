@@ -1,26 +1,35 @@
 # Python3
 
-playerA = str(input("Rock, Paper, or Scissor?")
-playerB = str(input("Rock, Paper, or Scissor?")
+import sys
 
-aScore = 0
-bScore = 0
 
 def compareResponse(playerA, playerB):
 	if playerA == playerB:
-		# TODO Tie
+		print("it's a tie!")
 	elif playerA == "Rock":
 		if playerB == "Scissors":
-			# TODO: PlayerA wins
+			print("Player one Wins!")
 		elif playerB == "Paper":
-			# TODO: PlayerB wins
+			print("Player two wins!")
 	elif playerA == "Paper":
 		if playerB == "Rock":
-			# TODO: PlayerA wins
-		elif PlayerB == "Scissors":
-			# TODO: PlayerB wins
+			print("Player one wins!")
+		elif playerB == "Scissors":
+			print("Player two wins!")
 	elif playerA == "Scissors":
 		if playerB == "Rock":
-			# TODO: PlayerB wins		
+			print("Player two wins!")
 		elif playerB == "Paper":
-			# TODO: PlayerA wins
+			print("Player one wins!")
+	else:
+		print("invalid input")
+		sys.exit()
+
+while True:
+	usr_command = input("type quit to stop playing.")
+	if usr_command == "quit":
+		break
+	else:
+		a = str(input("Player One: Rock, Paper, or Scissors?"))
+		b = str(input("Player Two: Rock, Paper, or Scissors?"))
+		compareResponse(a, b)
