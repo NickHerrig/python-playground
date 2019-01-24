@@ -12,4 +12,8 @@ r_html = r.text
 soup = BeautifulSoup(r_html, features="html.parser")
 
 for entry in soup.find_all(class_='content-section'):
-	print(entry.text)
+	finalText = entry.text
+	print(finalText)
+
+with open('/mnt/c/pythonfiles/articleText.txt', 'w') as open_file:
+	open_file.write(finalText)
