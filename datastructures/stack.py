@@ -6,7 +6,10 @@ class Stack:
         self.items.append(val)
 
     def pop(self):
-        return self.items.pop()
+        if len(self.items) > 0:
+            return self.items.pop()
+        else:
+            raise Exception("Nothing in stack")
 
     def size(self):
         return len(self.items)
