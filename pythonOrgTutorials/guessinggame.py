@@ -2,6 +2,7 @@ import random
 
 answer = random.randint(1,100)
 guesses = [0]
+print(answer)
 
 print("--Guessing Game Challenge--")
 print("Think you can win??")
@@ -21,11 +22,15 @@ while True:
     guesses.append(guess)
 
     if guesses[-2]:
+        if abs(guesses[-1] - answer) < abs(guesses[-2] - answer):
+            print('Your getting WARMER!')
 
-        #TODO: warmer
-        #TODO: colder
+        else:
+            print('Your getting COLDER!')
 
-    #TODO: Warm
-    #TODO: Cold
+    elif abs(guess - answer) < 10:
+        print('You are WARM!')
 
+    else:
+        print('You are COLD!')
     pass
