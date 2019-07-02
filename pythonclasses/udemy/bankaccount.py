@@ -9,6 +9,15 @@ class Account:
         return f'Account Owner: {self.owner}\nAccount Balance: {self.balance}'
 
     def deposit(self, ammount):
+        """
+        This method allows a numeric deposit of money.
+
+        Parameters:
+        ammount (int or float): ammount of deposit
+
+        Returns:
+        str: 'Deposit Accepted'
+        """
         self.balance += ammount
         return 'Deposit Accepted'
 
@@ -16,5 +25,4 @@ class Account:
         if self.balance >= ammount:
             self.balance -= ammount
             return 'Withdraw Accepted'
-        else:
-            return 'Funds Unavailable'
+        return 'Funds Unavailable'
