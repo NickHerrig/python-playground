@@ -1,10 +1,11 @@
 from deckofcards import FrenchDeckOfCards
-from random import randint
+from player import Player
 
+deck = FrenchDeckOfCards()
+deck.shuffle()
 
-#TODO: Create Deck of cards
-
-#TODO: Shuffle Deck of cards
+player1 = Player(chips=100)
+dealer = Player()
 
 #TODO: Ask Player for their bet(Cannot be more than current chips)
 
@@ -20,4 +21,4 @@ from random import randint
 
 #TODO: Determin winner and add/subtract players chips
 
-#TODO: Play Again? 
+#TODO: Play Again?
