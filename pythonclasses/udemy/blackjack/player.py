@@ -11,3 +11,7 @@ class Player():
 
     def losechips(self, losses=0):
         self.chips -= losses
+
+    def addtohand(self, card):
+        self.hand.append(card)
+
