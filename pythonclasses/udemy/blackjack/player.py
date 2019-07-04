@@ -1,10 +1,9 @@
 
 class Player():
 
-    def __init__(self, name='default', hand=[], chips=0):
-        self.name = name
-        self.hand = hand
-        self.chips = chips
+    def __init__(self):
+        self.chips = 100
+        self.hand = []
 
     def addchips(self, winnings=0):
         self.chips += winnings

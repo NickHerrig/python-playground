@@ -4,9 +4,9 @@ from player import Player
 deck = FrenchDeckOfCards()
 deck.shuffle()
 
-player1 = Player(name = 'player1', chips=100)
-dealer = Player(name = 'dealer')
-print(f'Hello {player1.name}, You have {player1.chips} chips!')
+player1 = Player()
+dealer = Player()
+print(f'Hello, You have {player1.chips} chips!')
 
 bet = input('How many chips would you like to bet? ')
 
@@ -15,10 +15,13 @@ while int(bet) > player1.chips:
     if int(bet) <= player1.chips:
         break
 
+player1.addtohand(deck.deal())
+dealer.addtohand(deck.deal())
+player1.addtohand(deck.deal())
+dealer.addtohand(deck.deal())
 
-#TODO: Deal cards to player and dealer (Does the order matter in real blackjack?... Not sure)
-
-#TODO: Ensure one of dealers cards is face up, and show both players cards
+print(f'Your cards are: {player1.hand}.')
+print(f'The dealer has a {dealer.hand[0]} showing.')
 
 #TODO: Ask player if they want to hit or stand
 
