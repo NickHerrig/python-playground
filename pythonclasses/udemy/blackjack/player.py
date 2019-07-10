@@ -4,6 +4,7 @@ class Player():
     def __init__(self):
         self.chips = 100
         self.hand = []
+        self.handvalue = 0
 
     def addchips(self, winnings=0):
         self.chips += winnings
