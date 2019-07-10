@@ -1,34 +1,32 @@
 from deckofcards import FrenchDeckOfCards
 from player import Player
 
-deck = FrenchDeckOfCards()
-deck.shuffle()
+def make_bet(player_chips):
 
-player1 = Player()
-dealer = Player()
-print(f'Hello, You have {player1.chips} chips!')
+    while True:
+        print(f'you have {player_chips} chips.')
+        try:
+            bet = int(input("How many chips would you like to bet? "))
+        except ValueError:
+            print('Please enter an integer.')
+        else:
+            if bet > player_chips:
+                print('You cannot bet more than', player_chips, 'chips.')
+            else:
+                break
+        
+while True:
+    print('Welcome to blackjack! Try and beat the dealer by getting to 21 without going over!')
 
-bet = input('How many chips would you like to bet? ')
+    deck = FrenchDeckOfCards()
+    deck.shuffle()
 
-while int(bet) > player1.chips:
-    bet = input('you cannot bet more chips than you have. Try again: ')
-    if int(bet) <= player1.chips:
-        break
+    player1 = Player()
+    dealer = Player()
+    player1.addtohand(deck.deal())
+    dealer.addtohand(deck.deal())
+    player1.addtohand(deck.deal())
+    dealer.addtohand(deck.deal())
 
-player1.addtohand(deck.deal())
-dealer.addtohand(deck.deal())
-player1.addtohand(deck.deal())
-dealer.addtohand(deck.deal())
-
-print(f'Your cards are: {player1.hand}.')
-print(f'The dealer has a {dealer.hand[0]} showing.')
-
-#TODO: Ask player if they want to hit or stand
-
-#TODO: If no Bust, Ask if hit or stand
-
-#TODO: Play Dealer Hand (Dealer will always hit until 17 or greater)
-
-#TODO: Determin winner and add/subtract players chips
-
-#TODO: Play Again?
+    make_bet(player1.chips)
+    break
