@@ -1,6 +1,8 @@
 from deckofcards import FrenchDeckOfCards
 from player import Player
 
+playing = True
+
 def make_bet(player_chips):
 
     while True:
@@ -14,6 +16,28 @@ def make_bet(player_chips):
                 print('You cannot bet more than', player_chips, 'chips.')
             else:
                 break
+
+def show_cards():
+    print('Dealer is showing an: ')
+    print(f'{player1.hand[0]} \n')
+    print("Player's Cards: ", *player1.hand, sep='\n') 
+
+def hit_or_stand():
+    global playing
+    
+    while True:
+        hitorstand = input('Would you like to hit(h) or stand(s)? ')
+        
+        if hitorstand[0].lower() == 'h':
+            player1.addtohand(deck.deal())
+        elif hitorstand[0].lower() == 's':
+            print('Player stands. Dealer is playing.')
+            playing = False
+        else:
+            print('Please try again.')
+            continue
+        break
+    
         
 while True:
     print('Welcome to blackjack! Try and beat the dealer by getting to 21 without going over!')
@@ -29,4 +53,9 @@ while True:
     dealer.addtohand(deck.deal())
 
     make_bet(player1.chips)
+    show_cards()
+
+    while playing:
+        hit_or_stand()
+        show_cards()
     break

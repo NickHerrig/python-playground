@@ -23,7 +23,7 @@ class FrenchDeckOfCards:
 
     def __getitem__(self, position):
         return self._cards[position]
-
+    
     def shuffle(self):
         """
         Purpose: The shuffle method shuffles existing object list of cards.
