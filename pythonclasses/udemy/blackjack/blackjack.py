@@ -32,6 +32,8 @@ def hit_or_stand():
 
         if hitorstand[0].lower() == 'h':
             player1.addtohand(deck.deal())
+            show_cards()
+            add_cards(player1)
         elif hitorstand[0].lower() == 's':
             print('Player stands. Dealer is playing.')
             playing = False
@@ -58,7 +60,6 @@ def add_cards(player):
     cards = [player.hand[i].rank for i in range(len(player.hand))]
     for card in cards:
         player.handvalue += values[card]
-    print(player.handvalue)
 
 
 while True:
@@ -73,14 +74,17 @@ while True:
     dealer.addtohand(deck.deal())
     player1.addtohand(deck.deal())
     dealer.addtohand(deck.deal())
-
+    
     make_bet(player1.chips)
     show_cards()
 
     while playing:
-        hit_or_stand()
-        show_cards()
         add_cards(player1)
         add_cards(dealer)
+        hit_or_stand()
+        if player1.handvalue > 21:
+            print("player busts!")
+            break
     break
+
 
