@@ -8,14 +8,15 @@ def make_bet(player_chips):
     while True:
         print(f'you have {player_chips} chips.')
         try:
-            bet = int(input("How many chips would you like to bet? "))
+            bet_value = int(input("How many chips would you like to bet? "))
         except ValueError:
             print('Please enter an integer.')
         else:
-            if bet > player_chips:
+            if bet_value > player_chips:
                 print('You cannot bet more than', player_chips, 'chips.')
             else:
                 break
+    return bet_value
 
 
 def show_cards():
@@ -75,7 +76,7 @@ while True:
     player1.addtohand(deck.deal())
     dealer.addtohand(deck.deal())
     
-    make_bet(player1.chips)
+    bet = make_bet(player1.chips)
     show_cards()
 
     while playing:
@@ -83,6 +84,8 @@ while True:
         add_cards(dealer)
         hit_or_stand()
         if player1.handvalue > 21:
+            player1.losechips(losses=bet)
+            print(player1.chips)
             print("player busts!")
             break
     break
