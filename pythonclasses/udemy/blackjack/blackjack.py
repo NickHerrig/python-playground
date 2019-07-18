@@ -20,9 +20,12 @@ def make_bet(player_chips):
 
 
 def show_cards():
+    print('____\n')
     print('Dealer is showing an: ')
     print(f'{dealer.hand[0]} \n')
     print("Player's Cards: ", *player1.hand, sep='\n')
+    print(f'Player1 HandValue: {player1.handvalue}')
+    print('____\n')
 
 
 def hit_or_stand():
@@ -34,33 +37,15 @@ def hit_or_stand():
         if hitorstand[0].lower() == 'h':
             player1.addtohand(deck.deal())
             show_cards()
-            add_cards(player1)
         elif hitorstand[0].lower() == 's':
+            print('____\n')
             print('Player stands. Dealer is playing.')
+            print('____\n')
             playing = False
         else:
             print('Please try again.')
             continue
         break
-
-def add_cards(player):
-    values = {'2':2,
-              '3':3,
-              '4':4,
-              '5':5,
-              '6':6,
-              '7':7,
-              '8':8,
-              '9':9,
-              '10':10,
-              'J':10,
-              'Q':10,
-              'K':10,
-              'A':11}
-
-    cards = [player.hand[i].rank for i in range(len(player.hand))]
-    for card in cards:
-        player.handvalue += values[card]
 
 
 while True:
@@ -80,14 +65,27 @@ while True:
     show_cards()
 
     while playing:
-        add_cards(player1)
-        add_cards(dealer)
         hit_or_stand()
-        if player1.handvalue > 21:
-            player1.losechips(losses=bet)
-            print(player1.chips)
-            print("player busts!")
-            break
-    break
 
+        if player1.handvalue > 21:
+            print(f'player busts with a {player1.handvalue}')
+            print('____\n')
+            break
+   
+    if player1.handvalue <= 21:    
+        
+        while dealer.handvalue < 17:
+            dealer.addtohand(deck.deal())
+        
+        if dealer.handvalue > 21:
+            print(f'Dealer Busts with a {dealer.handvalue}')
+
+        elif dealer.handvalue > player1.handvalue:
+            print(f'Dealer wins with a {dealer.handvalue}')
+
+        elif dealer.handvalue < player1.handvalue:
+            print(f'Player wins with a {player1.handvalue}')
+
+        else:
+            print("Push")
 
