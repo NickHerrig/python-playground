@@ -2,7 +2,7 @@
 class Player():
 
     def __init__(self):
-        self.chips = 100
+        self.chips = 0
         self.hand = []
         self.handvalue = 0
 
