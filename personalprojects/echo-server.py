@@ -13,4 +13,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             data = conn.recv(1024)
             if not data:
                 break
-            conn.sendall(data)
+            my_data = data.decode() + ', right back at ya...' 
+            conn.sendall(my_data.encode())
+            print(data.decode())
