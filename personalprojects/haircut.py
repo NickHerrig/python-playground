@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from pprint import pprint
 
 import requests
+from textAlert import send_message_nick
 
 barbers_endpoints = {
     'jordan':'https://www.genbook.com/bookings/api/serviceproviders/30230662/services/989056738/resources/989056742?',
@@ -38,6 +39,8 @@ def main():
 
     for appointment in current_weeks_appointments:
         pprint(appointment.strftime('%b/%d/%Y'))
+
+    send_message_nick(str(current_weeks_appointments))
 
 if __name__ == '__main__':
     main()
