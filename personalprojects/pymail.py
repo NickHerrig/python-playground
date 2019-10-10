@@ -1,20 +1,26 @@
+import os
 import smtplib
 import ssl
-from getpass import getpass
-
-sender_email = "nickherrigdeveloper@gmail.com"
-receiver_email = "neherrig@gmail.com"
-message = """\
-Subject: Hair Cuts! 
-
-This message is sent from Python."""
 
 
-port = 465
-password = getpass("enter your password: ") 
 
-context = ssl.create_default_context()
+def send_email(send_to, subject, message):
+    """Send an email from nickherrigdeveloper@gmail.com.
 
-with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-    server.login("nickherrigdeveloper@gmail.com", password)
-    server.sendmail(sender_email, receiver_email, message)
+    Keyword arguments:
+    send_to -- the receiver
+    subject -- the subject line
+    message -- the contents
+
+    """
+    sender_email = "nickherrigdeveloper@gmail.com"
+
+    email = 'Subject: {}\n\n{}'.format(subject, message)
+    port = 465
+    password = os.environ['DEV_EMAIL_PASS']
+    
+    context = ssl.create_default_context()
+    
+    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, send_to, email)
