@@ -3,6 +3,8 @@ from pprint import pprint
 
 import requests
 
+from pymail import send_email
+
 barbers_endpoints = {
     'jordan':'https://www.genbook.com/bookings/api/serviceproviders/30230662/services/989056738/resources/989056742?',
     'kegan':'https://www.genbook.com/bookings/api/serviceproviders/30352805/services/2098565278/resources/2098565282?',
@@ -32,12 +34,12 @@ def this_weeks_appointments(available_apointments):
 
 
 def main():
-    all_appointments = get_available_appointments('kegan')
+    all_appointments = get_available_appointments('jordan')
     appointment_dates = format_appointments(all_appointments)
     current_weeks_appointments = this_weeks_appointments(appointment_dates)
 
-    for appointment in current_weeks_appointments:
-        pprint(appointment.strftime('%b/%d/%Y'))
+    pretty_dates = [appointment.strftime('%b/%d/%Y') for appointment in current_weeks_appointments]
+    send_email("neherrig@gmail.com", "Hair Jordan has Availability!", pretty_dates)
 
 if __name__ == '__main__':
     main()
