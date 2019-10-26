@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from pprint import pprint
+import shelve
 
 import requests
 
@@ -39,12 +40,17 @@ def main():
     for barber in barbers_endpoints.keys():
         all_appointments = get_available_appointments(barber)
         last_minute_appointments = this_weeks_appointments(all_appointments)
-
-        if last_minute_appointments:
-            print(barber, "has apointments on", last_minute_appointments)
-            # send_email("6302349125@txt.att.net", "Hair Jordan has Availability!", pretty_dates)
-        else:
-            print(barber, "has no availability.")
+         
+        with shelve.open('db') as db:
+            for appt in last_minute_appointments:
+                unique_key = barber + appt
+                key_exists = unique_key in db 
+                if key_exists:
+                    print('You have already been texted about appointment ', appt)
+                elif not key_exists:
+                    send_email("6302349125@txt.att.net", "{} has Availability!".format(barber), appt)
+                    print("Texting you about appointment...", appt)
+                    db[unique_key]=appt
 
 if __name__ == '__main__':
     main()
