@@ -31,7 +31,7 @@ def get_available_appointments(barber):
 
 
 def this_weeks_appointments(appointments):
-    available_apointments = [datetime(int(date[:4]),int(date[4:6]),int(date[6:8])) for date in appointments]
+    available_apointments = [datetime.strptime(date[:-1],'%Y%m%d') for date in appointments]
     week_from_today = datetime.today() + timedelta(days=7)
     return [date.strftime('%b/%d/%Y') for date in available_apointments if date < week_from_today]
 
@@ -45,11 +45,9 @@ def main():
             for appt in last_minute_appointments:
                 unique_key = barber + appt
                 key_exists = unique_key in db 
-                if key_exists:
-                    print('You have already been texted about appointment ', appt)
-                elif not key_exists:
-                    send_email("6302349125@txt.att.net", "{} has Availability!".format(barber), appt)
-                    print("Texting you about appointment...", appt)
+
+                if not key_exists:
+                    send_email("6302349125@txt.att.net", "{} has availability!".format(barber), appt)
                     db[unique_key]=appt
 
 if __name__ == '__main__':
