@@ -37,18 +37,18 @@ def this_weeks_appointments(appointments):
 
 
 def main():
-    barber = 'jordan'
-    all_appointments = get_available_appointments(barber)
-    last_minute_appointments = this_weeks_appointments(all_appointments)
-     
-    with shelve.open('db') as db:
-        for appt in last_minute_appointments:
-            unique_key = barber + appt
-            key_exists = unique_key in db 
-
-            if not key_exists:
-                send_email("6302349125@txt.att.net", "{} has availability!".format(barber), appt)
-                db[unique_key]=appt
+    for barber in barbers_endpoints.keys():
+        all_appointments = get_available_appointments(barber)
+        last_minute_appointments = this_weeks_appointments(all_appointments)
+         
+        with shelve.open('db') as db:
+            for appt in last_minute_appointments:
+                unique_key = barber + appt
+                key_exists = unique_key in db 
+    
+                if not key_exists:
+                    send_email("6302349125@txt.att.net", "{} has availability!".format(barber), appt)
+                    db[unique_key]=appt
 if __name__ == '__main__':
     main()
 
