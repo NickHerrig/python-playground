@@ -1,18 +1,14 @@
-import sys
-# The equation..
-table = {
-    '10': 'A',
-    '11': 'B',
-    '12': 'C',
-    '13': 'D',
-    '14': 'E',
-    '15': 'F',
-    }
-
 
 def hex_to_dec(hexadecimal):
-    #TODO
+    """
+    multiply each of the hexadecimal digits by the appropriate power of 16.
+    
+    EXAMPLE:
+    0x7AF = 7 * 16^2 + 10 * 16 + 15 
 
+    DEC:
+    1967
+    """
 
 def dec_to_hex(decimal):
     """
@@ -30,30 +26,3 @@ def dec_to_hex(decimal):
     0x4CB2C
     
     """
-    hexadecimal = []
-    while True:
-        quotient = decimal // 16
-        remainder = decimal % 16
-    
-        if remainder == 0:
-            break
-    
-        if str(remainder) in table.keys():
-            hexadecimal.append(table[str(remainder)])
-        else:
-            hexadecimal.append(str(remainder))
-    
-        decimal = quotient 
-
-    hexadecimal.reverse()
-    return ''.join(hexadecimal)
-
-print(dec_to_hex(int(sys.argv[1])))
-
-#built ins
-print(hex(int(sys.argv[1])), 'HEX')
-print(bin(int(sys.argv[1])), 'BIN')
-print(int(sys.argv[1]), 'INT')
-
-
-
