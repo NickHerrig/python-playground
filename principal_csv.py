@@ -13,8 +13,8 @@ with open('principal-csv.csv', newline='') as file:
             solutions.append(int(row[1]) / int(row[2]))
         elif row[0] == 'subtraction':
             solutions.append(int(row[1]) - int(row[2]))
+        print(row, solutions[-1])
         
-    print(solutions)
 
 #operation,num1,num2
 #addition,52,6584
