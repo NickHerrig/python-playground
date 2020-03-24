@@ -1,19 +1,27 @@
 from collections import namedtuple
 import time
 from pprint import pprint
+import concurrent.futures
 
 import yfinance as yf
 
 Stock = namedtuple('Stock', 'name sector high low price book_value pb eps pe discount')
 
 def parse_tickers(ticker_file):
-
     with open(ticker_file) as f:
         tickers = f.read().splitlines()
     return tickers
 
-def get_stock_data(ticker):
-    stock_data = yf.Ticker(ticker).info
+def load_stock_data(ticker):
+    ticker_object = yf.Ticker(ticker)
+    stock_data = ticker_object.info
+    return stock_data
+
+def parse_stock_data(stock_data):
+
+    delta  = stock_data['fiftyTwoWeekHigh'] - stock_data['regularMarketPrice']
+    discount = 100 * (delta / stock_data['fiftyTwoWeekHigh'])
+
     return Stock(
     stock_data['longName'],
     stock_data['sector'],
@@ -24,40 +32,34 @@ def get_stock_data(ticker):
     stock_data['priceToBook'],
     stock_data['trailingEps'],
     stock_data['trailingPE'],
-    None,
+    discount,
     )
-
-def calculate_discount(stock):
-    discount = 100 * ((stock.high - stock.price) / stock.high)
-    return stock._replace(discount=discount)
 
 def rank_stocks(stock_evaluations, attribute, reverse=False):
     stock_evaluations.sort(key=lambda x: getattr(x, attribute), reverse=reverse)
 
 def main():
 
+    stock_reports = []
     tickers_file = 'tickers.txt'
     tickers = parse_tickers(tickers_file)
 
-    stock_evaluations = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        future_to_ticker = {executor.submit(load_stock_data, ticker): ticker for ticker in tickers}
+        for future in concurrent.futures.as_completed(future_to_ticker):
+            ticker = future_to_ticker[future]
+            try:
+                print("Processing Ticker: ", ticker)
+                data = future.result()
+                parsed_data = parse_stock_data(data)
 
-    for ticker in tickers:
-        try:
-            raw_stock_data =  get_stock_data(ticker)
+            except Exception as exc:
+                print('%r generated an exception: %s' % (ticker, exc))
 
-        except KeyError:
-            print("Key Error", ticker)
-            continue
+            stock_reports.append(parsed_data)
 
-        except IndexError:
-            print("Index Error", ticker)
-            continue
-
-        evaluation = calculate_discount(raw_stock_data)
-        stock_evaluations.append(evaluation)
-
-    rank_stocks(stock_evaluations, "discount", True)
-    pprint(stock_evaluations[0:10])
+    rank_stocks(stock_reports, "discount", True)
+    pprint(stock_reports(:24)
 
 if __name__=="__main__":
     main()
