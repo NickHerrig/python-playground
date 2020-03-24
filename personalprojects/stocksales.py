@@ -4,7 +4,7 @@ from pprint import pprint
 
 import yfinance as yf
 
-Stock = namedtuple('Stock', 'name sector high low price book_value pb eps pe')
+Stock = namedtuple('Stock', 'name sector high low price book_value pb eps pe discount')
 
 def parse_tickers(ticker_file):
 
@@ -24,15 +24,15 @@ def get_stock_data(ticker):
     stock_data['priceToBook'],
     stock_data['trailingEps'],
     stock_data['trailingPE'],
+    None,
     )
 
-def stock_evaluation(stock):
+def calculate_discount(stock):
     discount = 100 * ((stock.high - stock.price) / stock.high)
-    print(stock.name)
-    print("{:.2f}% off!".format(discount))
-    print(stock.price, "is the current price")
-    print(f"book value: {stock.book_value} price to book: {stock.pb} earnings per share: {stock.eps} price to earnings: {stock.pe}")
-    print("\n")
+    return stock._replace(discount=discount)
+
+def rank_stocks(stock_evaluations, attribute, reverse=False):
+    stock_evaluations.sort(key=lambda x: getattr(x, attribute), reverse=reverse)
 
 def main():
 
@@ -42,25 +42,22 @@ def main():
     stock_evaluations = []
 
     for ticker in tickers:
-        start_time = time.perf_counter()
-
         try:
             raw_stock_data =  get_stock_data(ticker)
 
         except KeyError:
-            print("KEEYYY ERRORR")
-            break
+            print("Key Error", ticker)
+            continue
 
         except IndexError:
-            print("INDEXXX ERROR")
-            break
+            print("Index Error", ticker)
+            continue
 
-        end_time = time.perf_counter()
-
-        evaluation = stock_evaluation(raw_stock_data)
+        evaluation = calculate_discount(raw_stock_data)
         stock_evaluations.append(evaluation)
 
-    print(f"Downloaded stock data in {end_time - start_time} seconds")
+    rank_stocks(stock_evaluations, "discount", True)
+    pprint(stock_evaluations[0:10])
 
 if __name__=="__main__":
     main()
