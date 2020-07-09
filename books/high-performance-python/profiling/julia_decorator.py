@@ -1,9 +1,6 @@
 import time
 from functools import wraps
 
-# If using timit, run the following command:
-# python -m timeit -n 5 -r 5 -s "import julia_decorator" "julia_decorator.calc_pure_python(1000, 300)"
-
 x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8
 c_real, c_imag = -0.62772, -.42193
 
