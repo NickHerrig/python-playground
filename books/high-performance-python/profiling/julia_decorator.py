@@ -15,7 +15,7 @@ def time_function(fn):
         return result
     return measure_time
 
-@time_function
+@profile
 def calculate_z_serial_purepython(maxiter, zs, cs):
     output = [0] * len(zs)
     for i in range(len(zs)):
