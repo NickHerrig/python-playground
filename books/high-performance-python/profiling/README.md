@@ -30,6 +30,7 @@ kernprof -l -v {module-name}.py
 
 It can be seen through the results below that abs(z) <2 is more expensive than n < maxiter 
 
+`
 Length of x: 1000
 Total complex coordinates : 1000000
 Wrote profile results to julia_decorator.py.lprof
@@ -40,7 +41,9 @@ File: julia_decorator.py
 Function: calculate_z_serial_purepython at line 18
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
+
 ==============================================================
+
     18                                           @profile
     19                                           def calculate_z_serial_purepython(maxiter, zs, cs):
     20         1       2907.0   2907.0      0.0      output = [0] * len(zs)
@@ -58,7 +61,7 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     32   1000000     331685.0      0.3      0.5                  break
     33   1000000     354427.0      0.4      0.5          output[i] = n
     34         1          0.0      0.0      0.0      return output
-
+`
 
 ## A fractional imporvement
 
@@ -67,6 +70,7 @@ This can be seen below with the results of kernprof.
 
 ### Results of expensive calc on left
 
+`
 Length of x: 1000
 Total complex coordinates : 1000000
 Wrote profile results to julia_lineprofiler_slower.py.lprof
@@ -76,8 +80,10 @@ Total time: 42.6337 s
 File: julia_lineprofiler_slower.py
 Function: calculate_z_serial_purepython at line 7
 
-Line #      Hits         Time  Per Hit   % Time  Line Contents
+ Line #      Hits         Time  Per Hit   % Time  Line Contents
+
 ==============================================================
+
      7                                           @profile
      8                                           def calculate_z_serial_purepython(maxiter, zs, cs):
      9         1       3046.0   3046.0      0.0      output = [0] * len(zs)
@@ -90,9 +96,11 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     16  33219980   11731733.0      0.4     27.5              n += 1
     17   1000000     353999.0      0.4      0.8          output[i] = n
     18         1          1.0      1.0      0.0      return output
+`
 
 ### Results of inexpensive calc on left 
 
+`
 Length of x: 1000
 Total complex coordinates : 1000000
 Wrote profile results to julia_lineprofiler.py.lprof
@@ -103,7 +111,9 @@ File: julia_lineprofiler.py
 Function: calculate_z_serial_purepython at line 7
 
 Line #      Hits         Time  Per Hit   % Time  Line Contents
+
 ==============================================================
+
      7                                           @profile
      8                                           def calculate_z_serial_purepython(maxiter, zs, cs):
      9         1       3009.0   3009.0      0.0      output = [0] * len(zs)
@@ -116,4 +126,4 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     16  33219980   11083886.0      0.3     27.6              n += 1
     17   1000000     333538.0      0.3      0.8          output[i] = n
     18         1          0.0      0.0      0.0      return output
-
+`
