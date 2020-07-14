@@ -4,17 +4,6 @@ from functools import wraps
 x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8
 c_real, c_imag = -0.62772, -.42193
 
-def time_function(fn):
-    @wraps(fn)
-    def measure_time(*args, **kwargs):
-        start_time = time.time()
-        result = fn(*args, **kwargs)
-        end_time = time.time()
-        total_time = end_time - start_time
-        print("@time_function: ", fn.__name__, "took ", total_time, " seconds.")
-        return result
-    return measure_time
-
 @profile
 def calculate_z_serial_purepython(maxiter, zs, cs):
     output = [0] * len(zs)
@@ -22,14 +11,9 @@ def calculate_z_serial_purepython(maxiter, zs, cs):
         n = 0
         z = zs[i]
         c = cs[i]
-        while True:
-            not_yet_escaped = abs(z) < 2
-            iterations_left = n < maxiter
-            if not_yet_escaped and iterations_left:
-                z = z * z + c
-                n += 1
-            else:
-                break
+        while n < maxiter and abs(z) < 2:
+            z = z * z + c
+            n += 1
         output[i] = n
     return output
 
