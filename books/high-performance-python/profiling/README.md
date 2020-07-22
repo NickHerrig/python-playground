@@ -127,3 +127,13 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     17   1000000     333538.0      0.3      0.8          output[i] = n
     18         1          0.0      0.0      0.0      return output
 `
+
+## Using memory_profiler to Diagnose Memory Usage 
+`
+python -m memory_profiler {script-name}.py
+`
+
+## Using mprof to plot memory statistics
+`
+mprof run julia1_memoryprofiler.py
+`
