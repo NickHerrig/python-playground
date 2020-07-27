@@ -14,7 +14,13 @@
 5. The result of a particular game of pool (tuple - the data has static results)
 6. The results of a continuing series of pool games (list - the data will continue to grow)
 
-## List overallocation of memory
+## List as DYNAMIC Arrays
 Interestingly, when you append data to a list, python will overallocate additional space to that list, assuming more appends are coming. 
 This is important because it effectively avoids expensive memory copies by assuming additional appends.
 
+## Tuples as STATIC Arrays
+Instantiating a list can be 5.1x slower than instantiating a tuple—which can add up quite quickly if this is done in a fast loop!
+This is due to Tuples being cached, reducing a trip to the operating system on instantiation of a new tuple, when an old tuple has been garbage collected.
+
+## TLDR
+Lists and tuples are fast and low-overhead objects to use when your data already has an intrinsic ordering to it. This intrinsic ordering allows you to sidestep the search problem in these structures: if the ordering is known beforehand, then lookups are O(1), avoiding an expensive O(n) linear search. While lists can be resized, you must take care to properly understand how much overallocation is happening to ensure that the dataset can still fit in memory. On the other hand, tuples can be created quickly and without the added overhead of lists, at the cost of not being modifiable.
