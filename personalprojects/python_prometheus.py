@@ -2,6 +2,7 @@ from prometheus_client import start_http_server, Summary, Counter, Gauge, Histog
 import random
 import time
 
+
 """
 Metric Examples:
 
@@ -12,14 +13,28 @@ Summary - Similar to histogram, but over a sliding time window.
 
 """
 
+
 c = Counter('total_failures', 'Number of failures due to network errors')
 g = Gauge('in_process_requests', 'Number of failures due to network errors')
 i = Info('my_app_info', 'The application version info')
 e = Enum('my_app_state', 'The current state of the application',  states=['started', 'stopped'])
 p = ProcessCollector(namespace='mydaemon', pid=lambda: open('/var/run/daemon.pid').read())
 
+
+
+def main():
+    c.inc(5)
+
 if __name__ == '__main__':
     start_http_server(8001)
+    main()
+    time.sleep(5)
+    main()
+    time.sleep(5)
+    main()
+    time.sleep(5)
+    main()
     while True:
         pass
+
 
