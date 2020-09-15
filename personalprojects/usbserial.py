@@ -1,4 +1,5 @@
 from math import log
+import os
 
 import serial
 
@@ -37,12 +38,31 @@ checksum = One byte
 
 """
 
+def start_motor():
 
-def main():
+    servo_id = 0x00
+    packet_length = 0x80
+    function_code = 0x03
+    packet_length_func_code = packet_length + function_code
+    data1 = 0x00
+
+    packet_sum = sum([servo_id, packet_length_func_code, data])
+    checksum = (packet_sum  % 128) | 0b10000000
+
+    packet = [servo_id, packet_length_func_code, data, checksum]
+
+    return packet
+
+def main(serial_connection):
+    packet = start_motor()
+    print(packet)
+    serial_connection.write(packet)
 
 if __name__=='__main__':
-#    s = serial.Serial(os.getenv('USB_PORT'),
-#                      baudrate=38400,
-#                      parity=serial.PARITY_NONE,
-#                      stopbits=serial.STOPBITS_ONE,
-#                      bytesize=serial.EIGHTBITS)
+    s = serial.Serial(os.getenv('USB_PORT'),
+                      baudrate=38400,
+                      parity=serial.PARITY_NONE,
+                      stopbits=serial.STOPBITS_ONE,
+                      bytesize=serial.EIGHTBITS)
+
+    main(s)
