@@ -37,6 +37,22 @@ checksum = One byte
  - B0 = 0x80 + Mod(S , 128) (Then calculate checksum B0)
 
 """
+def read_drive_id():
+
+    drive_id = 0x02
+    func_code = 0x06
+    packet_length = 0x80
+    byte_two = func_code | packet_length
+
+    data = 0x00  #DUMMY DATA
+
+    packet = bytearray([drive_id, byte_two, data])
+
+    byte_sum = drive_id + byte_two + data
+    checksum = 0x80 | (sum(packet) & 0x7f)
+    packet.append(checksum)
+
+    return packet
 
 if __name__=='__main__':
     s = serial.Serial(os.getenv('USB_PORT'),
@@ -44,4 +60,11 @@ if __name__=='__main__':
                       parity=serial.PARITY_NONE,
                       stopbits=serial.STOPBITS_TWO,
                       bytesize=serial.EIGHTBITS)
+
+    print("Conntected to device:", s.name)
+    packet = read_drive_id()
+    response = s.write(packet)
+    print(response)
+
+    s.close()
 
