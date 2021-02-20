@@ -1,4 +1,6 @@
 import bisect
+import random
+
 
 def main():
 
@@ -12,6 +14,15 @@ def main():
         position = bisect.bisect(haystack, needle)
         offset = position * '  |'
         print(ROW_FMT.format(needle, position, offset))
+
+    print('\n')
+
+    my_list = []
+    size = 8
+    for i in range(size):
+        new_item = random.randrange(size*2)
+        bisect.insort(my_list, new_item)
+        print('{:2d} -> {}'.format(new_item, my_list))
 
 
 if __name__=="__main__":
