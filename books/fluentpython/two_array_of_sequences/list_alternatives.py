@@ -1,3 +1,17 @@
+def queue_demo():
+    from collections import deque
+    dq = deque(range(10), maxlen=10)
+    print(dq)
+    dq.rotate(3)
+    print(dq)
+    dq.rotate(-4)
+    print(dq)
+    dq.appendleft(-1)
+    print(dq)
+    dq.extendleft([10, 11])
+    print(dq)
+
+
 def array_demo():
     from array import array
     from random import random
@@ -16,3 +30,4 @@ def array_demo():
 
 if __name__=="__main__":
     array_demo()
+    queue_demo()
