@@ -11,9 +11,9 @@ example, in a dict of list values, to avoid redundant searches for the same
 key. The update method allows bulk insertion or overwriting of items from 
 any other mapping, from iterables providing (key, value) pairs and from 
 keyword arguments. Mapping constructors also use update internally, allowing
-instances to be initialized from map‐ pings, iterables, or keyword arguments.
+instances to be initialized from mappings, iterables, or keyword arguments.
 
-A clever hook in the mapping API is the __missing__ method, which lets you 
+A clever hook in the mapping API is the `__missing__` method, which lets you 
 customize what happens when a key is not found.
 
 The collections.abc module provides the Mapping and MutableMapping abstract 
