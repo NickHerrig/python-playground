@@ -9,8 +9,6 @@ def main():
     print(normalize('NFC', s1) == normalize('NFC', s2))
 
 
-
-
 if __name__=="__main__":
     main()
 
