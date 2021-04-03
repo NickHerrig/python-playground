@@ -55,6 +55,11 @@ def large_order_promo(order):
         return order.total() * .07
     return 0
 
+promos = [fidelity_promo, bulk_item_promo, large_order_promo]
+
+def best_promo(order):
+    return max(promo(order) for promo in promos)
+
 
 def main():
     # Customers named tuple
@@ -78,6 +83,10 @@ def main():
 
     print(Order(joe, long_order, large_order_promo))
     print(Order(joe, cart, large_order_promo))
+
+    print(Order(joe, long_order, best_promo))
+    print(Order(joe, bannana_cart, best_promo))
+    print(Order(anna, cart, best_promo))
 
 
 if __name__=="__main__":
