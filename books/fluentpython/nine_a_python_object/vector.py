@@ -32,11 +32,26 @@ class Vector2d():
     def __bool__(self):
         return bool(abs(self))
 
+    def __format__(self, fmt_spec=''):
+        if fmt_spec.endswith('p'):
+            fmt_spec = fmt_spec[:-1]
+            coords = (abs(self), self.angle())
+            outer_fmt = '<{}, {}>'
+        else:
+            coords = self
+            outer_fmt = '({}, {})'
+
+        components = (format(c, fmt_spec) for c in coords)
+        return outer_fmt.format(*components)
+
     @classmethod
     def frombytes(cls, octets):
         typecode = chr(octets[0])
         memv = memoryview(octets[1:]).cast(typecode)
         return cls(*memv)
+
+    def angle(self):
+        return math.atan2(self.y, self.x)
 
 def main():
     v1 = Vector2d(3, 4)
@@ -50,6 +65,13 @@ def main():
 
     print(abs(v1))
     print(bool(v1), bool(Vector2d(0, 0)))
+
+    print(format(v1, '.2f'))
+    print(format(v1, '.3e'))
+
+    print(format(Vector2d(1, 1), 'p'))
+    print(format(Vector2d(1, 1), '.3ep'))
+    print(format(Vector2d(1, 1), '0.5fp'))
 
 
 if __name__=="__main__":
