@@ -6,8 +6,19 @@ class Vector2d():
     typecode = 'd'
 
     def __init__(self, x, y):
-        self.x = float(x)
-        self.y = float(y)
+        self.__x = float(x)
+        self.__y = float(y)
+
+    @property
+    def x(self):
+        return self.__x
+
+    @property
+    def y(self):
+        return self.__y
+
+    def __hash__(self):
+        return hash(self.x) ^ hash(self.y)
 
     def __iter__(self):
         return (i for i in (self.x, self.y))
@@ -72,6 +83,8 @@ def main():
     print(format(Vector2d(1, 1), 'p'))
     print(format(Vector2d(1, 1), '.3ep'))
     print(format(Vector2d(1, 1), '0.5fp'))
+
+    print(hash(v1))
 
 
 if __name__=="__main__":
