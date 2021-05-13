@@ -45,11 +45,33 @@
         Vector([0.0, 1.0, 2.0])
         >>> v1 == v1_clone
         True
+
+    implement sequence proto
+       >>> len(v1)
+       3
+       >>> v1[0], v1[-1]
+       (0.0, 2.0)
+
+    slicing
+        >>> v1[1,2]
+        Traceback (most recent call last):
+          ...
+        TypeError: Vector indices must be integers
+        >>> v1[1]
+        1.0
+        >>> v1[1:4]
+        Vector([1.0, 2.0])
+        >>> v1[-1:]
+        Vector([2.0])
+
+
+
 """
 
 from array import array
 import reprlib
 import math
+import numbers
 
 
 class Vector:
@@ -81,6 +103,19 @@ class Vector:
 
     def __bool__(self):
         return bool(abs(self))
+
+    def __len__(self):
+        return len(self._components)
+
+    def __getitem__(self, index):
+        cls = type(self)
+        if isinstance(index, slice):
+            return cls(self._components[index])
+        elif isinstance(index, numbers.Integral):
+            return self._components[index]
+        else:
+            msg = '{cls.__name__} indices must be integers'
+            raise TypeError(msg.format(cls=cls))
 
     @classmethod
     def frombytes(cls, octets):
