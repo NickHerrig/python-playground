@@ -74,6 +74,8 @@ from array import array
 import reprlib
 import math
 import numbers
+import functools
+import operator
 
 
 class Vector:
@@ -98,7 +100,11 @@ class Vector:
                 + bytes(self._components))
 
     def __eq__(self, other):
-        return tuple(self) == tuple(other)
+        return len(self) == len(other) and any(a==b for a, b in zip(self, other))
+
+    def __hash__(self):
+        hashes = map(hash, self._components)
+        return functools.reduce(operator.xor, hashes, 0)
 
     def __abs__(self):
         return math.sqrt(sum(x * x for x in self))
@@ -143,6 +149,7 @@ class Vector:
                 msg = error.format(cls_name=cls.__name__, attr_name=name)
                 raise AttributeError(msg)
         super().__setattr__(name, value)
+
 
     @classmethod
     def frombytes(cls, octets):
