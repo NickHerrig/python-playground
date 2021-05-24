@@ -8,6 +8,16 @@
     Traceback (most recent call last):
       ...
     TypeError: unsupported operand type(s) for +: 'Vector' and 'int'
+
+
+    >>> v1 = Vector([1, 2, 3])
+    >>> v1 * 10
+    Vector([10.0, 20.0, 30.0])
+    >>> 11 * v1
+    Vector([11.0, 22.0, 33.0])
+    >>> from fractions import Fraction
+    >>> v1 * Fraction(1, 3)
+    Vector([0.3333333333333333, 0.6666666666666666, 1.0])
 """
 
 from array import array
@@ -41,7 +51,11 @@ class Vector:
                 + bytes(self._components))
 
     def __eq__(self, other):
-        return len(self) == len(other) and any(a==b for a, b in zip(self, other))
+        if isinstance(self, Vector):
+            return (len(self) == len(other) and
+                    any(a==b for a, b in zip(self, other)))
+        else:
+            return NotImplemented
 
     def __hash__(self):
         hashes = map(hash, self._components)
@@ -65,6 +79,15 @@ class Vector:
 
     def __radd__(self, other):
         return self + other
+
+    def __mul__(self, scalar):
+        if isinstance(scalar, numbers.Real):
+            return Vector(n * scalar for n in self)
+        else:
+            return NotImplemented
+
+    def __rmul__(self, other):
+        return self * other
 
     def __bool__(self):
         return bool(abs(self))
