@@ -2,7 +2,6 @@ import asyncio
 import sys
 import itertools
 
-
 async def spin(msg):
     write, flush = sys.stdout.write, sys.stdout.flush
     for char in itertools.cycle('|/-\\'):
