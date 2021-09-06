@@ -3,6 +3,14 @@ import keyword
 
 
 class FrozenJSON:
+    def __new__(cls, arg):
+        if isinstance(arg, abc.Mapping):
+            return super().__new__(cls)
+        if isinstance(arg, abc.MutableSequence):
+            return [cls(item) for item in arg]
+        else:
+            return arg
+
     def __init__(self, mapping):
         self.__data = {}
         for key, value in mapping.items():

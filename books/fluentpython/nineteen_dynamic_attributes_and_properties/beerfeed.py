@@ -7,7 +7,7 @@ from pprint import pprint
 from explore import FrozenJSON
 
 
-URL = 'https://random-data-api.com/api/beer/random_beer'
+URL = 'https://random-data-api.com/api/beer/random_beer?size=5'
 JSON = 'data/beer.json'
 
 
@@ -26,8 +26,7 @@ def main():
     '''Description of the function'''
     raw_json = load()
     feed = FrozenJSON(raw_json)
-    print(feed.brand, feed.alcohol)
-    print(feed.class_)
+    print(feed)
 
 
 
