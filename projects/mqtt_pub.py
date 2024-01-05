@@ -1,5 +1,4 @@
 import os
-import json
 import time
 import paho.mqtt.client as mqtt
 
@@ -10,19 +9,17 @@ def on_connect(client, userdata, flags, rc):
 client = mqtt.Client()
 client.on_connect = on_connect
 
-mqtt_broker_host = os.environ['MQTT_BROKER_HOST']
-mqtt_broker_port = int(os.environ['MQTT_BROKER_PORT'])
-topic = os.environ['MQTT_TOPIC']
+mqtt_broker_host = '192.168.0.100'
+mqtt_broker_port = 1883
+topic = 'test/status'
 
 client.connect(mqtt_broker_host, mqtt_broker_port, 60)
 
 while True:
-    payload = {"temperature":23.20,"humidity":51.60}
-    payload = json.dumps(payload)
+    payload = "ON"
     request = client.publish(topic=topic, payload=payload)
     print(request.rc)
-    time.sleep(10)
-    payload = {"temperature":40.0,"humidity":5.60}
-    payload = json.dumps(payload)
+    time.sleep(2)
+    payload = "OFF"
     request = client.publish(topic=topic, payload=payload)
-    time.sleep(10)
+    time.sleep(2)
